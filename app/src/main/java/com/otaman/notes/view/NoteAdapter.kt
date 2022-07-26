@@ -19,9 +19,9 @@ class NoteAdapter(
     inner class NotesViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         private val binding = ListItemNoteBinding.bind(itemView)
 
-        val tvTitle = binding.tvNoteTitle
-        val tvContent = binding.tvNoteContent
-        val ibDelete = binding.ibDeleteNote
+        private val tvTitle = binding.tvNoteTitle
+        private val tvContent = binding.tvNoteContent
+        private val ibDelete = binding.ibDeleteNote
 
         fun showNote(position: Int) {
             tvTitle.text = notes[position].title
