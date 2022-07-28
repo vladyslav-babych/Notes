@@ -17,7 +17,6 @@ import com.otaman.notes.viewmodel.AllNotesViewModel
 class MainActivity : AppCompatActivity(), OnNoteClick, OnNoteDeleteClick {
     private lateinit var binding: ActivityMainBinding
     private lateinit var allNotesViewModel: AllNotesViewModel
-    private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: NoteAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,7 +24,6 @@ class MainActivity : AppCompatActivity(), OnNoteClick, OnNoteDeleteClick {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        recyclerView = binding.rvNotesList
         initUi()
     }
 
@@ -57,6 +55,7 @@ class MainActivity : AppCompatActivity(), OnNoteClick, OnNoteDeleteClick {
     }
 
     private fun initUi() {
+        val recyclerView = binding.rvNotesList
         recyclerView.layoutManager = LinearLayoutManager(this)
         adapter = NoteAdapter(this, this, this)
         recyclerView.adapter = adapter
