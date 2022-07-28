@@ -19,8 +19,6 @@ class MainActivity : AppCompatActivity(), OnNoteClick, OnNoteDeleteClick {
     private lateinit var allNotesViewModel: AllNotesViewModel
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: NoteAdapter
-    private lateinit var searchItem: MenuItem
-    private lateinit var searchView: SearchView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,8 +31,8 @@ class MainActivity : AppCompatActivity(), OnNoteClick, OnNoteDeleteClick {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu, menu)
-        searchItem = menu.findItem(R.id.actionSearch)
-        searchView = searchItem.actionView as SearchView
+        val searchItem = menu.findItem(R.id.actionSearch)
+        val searchView = searchItem.actionView as SearchView
         searchView.queryHint = "Search"
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
