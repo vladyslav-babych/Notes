@@ -3,11 +3,13 @@ package com.otaman.notes.view
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
-import androidx.lifecycle.Observer
+import android.view.Menu
+import android.view.MenuItem
+import android.widget.*
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.otaman.notes.R
 import com.otaman.notes.model.Note
 import com.otaman.notes.databinding.ActivityMainBinding
 import com.otaman.notes.viewmodel.AllNotesViewModel
@@ -15,7 +17,6 @@ import com.otaman.notes.viewmodel.AllNotesViewModel
 class MainActivity : AppCompatActivity(), OnNoteClick, OnNoteDeleteClick {
     private lateinit var binding: ActivityMainBinding
     private lateinit var allNotesViewModel: AllNotesViewModel
-    private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: NoteAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,11 +24,34 @@ class MainActivity : AppCompatActivity(), OnNoteClick, OnNoteDeleteClick {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        recyclerView = binding.rvNotesList
         initUi()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu, menu)
+        val searchItem = menu.findItem(R.id.actionSearch)
+        val searchView = searchItem.actionView as SearchView
+        searchView.queryHint = "Search"
+
+        searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(searchedText: String): Boolean {
+                searchNote(searchedText)
+                return true
+            }
+        })
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    private fun searchNote(query: String) {
+        allNotesViewModel.searchNote(query)
+    }
+
     private fun initUi() {
+        val recyclerView = binding.rvNotesList
         recyclerView.layoutManager = LinearLayoutManager(this)
         adapter = NoteAdapter(this, this, this)
         recyclerView.adapter = adapter
@@ -36,11 +60,13 @@ class MainActivity : AppCompatActivity(), OnNoteClick, OnNoteDeleteClick {
             this, ViewModelProvider.AndroidViewModelFactory.getInstance(application)
         )[AllNotesViewModel::class.java]
 
-        allNotesViewModel.allNotes.observe(this, Observer { list ->
-            list.let {
-                adapter.updateNotesList(it)
-            }
-        })
+        allNotesViewModel.allNotes.observe(this) { list ->
+            adapter.updateNotesList(list)
+        }
+
+        allNotesViewModel.searchResults.observe(this) { list ->
+            adapter.updateNotesList(list)
+        }
 
         binding.fabAddNote.setOnClickListener {
             val intent = Intent(this@MainActivity, EditNoteActivity::class.java)
