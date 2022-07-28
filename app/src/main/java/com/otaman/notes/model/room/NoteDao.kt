@@ -16,9 +16,6 @@ interface NoteDao {
     @Query("SELECT * FROM Note ORDER BY title ASC")
     fun getAllNotes(): LiveData<List<Note>>
 
-    @Query("SELECT * FROM Note WHERE title LIKE :searchQuery OR content LIKE :searchQuery")
-    fun searchNote(searchQuery: String): Flow<List<Note>>
-
     @Update
     fun updateNote(note: Note)
 }

@@ -18,8 +18,4 @@ class NoteRepository(private val noteDao: NoteDao) {
     fun updateNote(note: Note) {
         noteDao.updateNote(note)
     }
-
-    fun searchNote(searchQuery: String): Flow<List<Note>> {
-        return noteDao.searchNote(searchQuery)
-    }
 }

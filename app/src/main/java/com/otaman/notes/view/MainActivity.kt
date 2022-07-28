@@ -33,25 +33,21 @@ class MainActivity : AppCompatActivity(), OnNoteClick, OnNoteDeleteClick {
         val searchView = searchItem.actionView as SearchView
         searchView.queryHint = "Search"
 
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
             }
 
-            override fun onQueryTextChange(query: String?): Boolean {
-                if(query != null) searchNote(query)
+            override fun onQueryTextChange(searchedText: String): Boolean {
+                searchNote(searchedText)
                 return true
             }
         })
-
         return super.onCreateOptionsMenu(menu)
     }
 
     private fun searchNote(query: String) {
-        val searchQuery = "%$query%"
-        allNotesViewModel.searchNote(searchQuery).observe(this@MainActivity) { list ->
-            list.let { adapter.updateNotesList(it) }
-        }
+        allNotesViewModel.searchNote(query)
     }
 
     private fun initUi() {
@@ -65,9 +61,11 @@ class MainActivity : AppCompatActivity(), OnNoteClick, OnNoteDeleteClick {
         )[AllNotesViewModel::class.java]
 
         allNotesViewModel.allNotes.observe(this) { list ->
-            list.let {
-                adapter.updateNotesList(it)
-            }
+            adapter.updateNotesList(list)
+        }
+
+        allNotesViewModel.searchResults.observe(this) { list ->
+            adapter.updateNotesList(list)
         }
 
         binding.fabAddNote.setOnClickListener {
