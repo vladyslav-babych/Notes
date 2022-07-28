@@ -21,9 +21,9 @@ class AllNotesViewModel(application: Application): AndroidViewModel(application)
         repository.deleteNote(note)
     }
 
-    fun searchNote(searchNote: String) {
+    fun searchNote(searchNote: String) = viewModelScope.launch(Dispatchers.IO) {
         val result = allNotes.value?.filter { note ->
-            note.title.lowercase(Locale.ROOT).contains(searchNote) && note.content.lowercase(Locale.ROOT).contains(searchNote)
+            note.title.contains(searchNote, true) || note.content.contains(searchNote, true)
         }.orEmpty()
 
         _searchResults.postValue(result)
