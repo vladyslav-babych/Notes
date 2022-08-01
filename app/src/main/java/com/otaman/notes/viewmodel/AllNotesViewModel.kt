@@ -16,7 +16,7 @@ class AllNotesViewModel(application: Application): AndroidViewModel(application)
     val allNotes: LiveData<List<Note>> = repository!!.getAllNotes()
 
     fun deleteNote(note: Note) = viewModelScope.launch(Dispatchers.IO) {
-        repository!!.deleteNote(note)
+        repository?.deleteNote(note)
     }
 
     fun searchNote(searchNote: String) = viewModelScope.launch(Dispatchers.Default) {
