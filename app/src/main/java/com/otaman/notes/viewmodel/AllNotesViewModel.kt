@@ -1,18 +1,22 @@
 package com.otaman.notes.viewmodel
 
+import android.app.Application
 import androidx.lifecycle.*
 import com.otaman.notes.model.Note
 import com.otaman.notes.model.NoteRepository
+import com.otaman.notes.model.room.NoteDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class AllNotesViewModel(): ViewModel() {
+class AllNotesViewModel(application: Application): AndroidViewModel(application) {
+    private val dao = NoteDatabase.getInstance(application).getNoteDao()
+    private val repository = NoteRepository.getInstance(dao)
     private val _searchResults = MutableLiveData<List<Note>>()
     val searchResults: LiveData<List<Note>> = _searchResults
-    val allNotes: LiveData<List<Note>> = NoteRepository.getAllNotes()
+    val allNotes: LiveData<List<Note>> = repository!!.getAllNotes()
 
     fun deleteNote(note: Note) = viewModelScope.launch(Dispatchers.IO) {
-        NoteRepository.deleteNote(note)
+        repository!!.deleteNote(note)
     }
 
     fun searchNote(searchNote: String) = viewModelScope.launch(Dispatchers.Default) {
