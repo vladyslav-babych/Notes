@@ -4,11 +4,10 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
-import android.view.MenuItem
 import android.widget.*
-import androidx.lifecycle.ViewModelProvider
+import androidx.activity.viewModels
+import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.otaman.notes.R
 import com.otaman.notes.model.Note
 import com.otaman.notes.databinding.ActivityMainBinding
@@ -16,7 +15,7 @@ import com.otaman.notes.viewmodel.AllNotesViewModel
 
 class MainActivity : AppCompatActivity(), OnNoteClick, OnNoteDeleteClick {
     private lateinit var binding: ActivityMainBinding
-    private lateinit var allNotesViewModel: AllNotesViewModel
+    private val allNotesViewModel by viewModels<AllNotesViewModel>()
     private lateinit var adapter: NoteAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,10 +54,6 @@ class MainActivity : AppCompatActivity(), OnNoteClick, OnNoteDeleteClick {
         recyclerView.layoutManager = LinearLayoutManager(this)
         adapter = NoteAdapter(this, this, this)
         recyclerView.adapter = adapter
-
-        allNotesViewModel = ViewModelProvider(
-            this, ViewModelProvider.AndroidViewModelFactory.getInstance(application)
-        )[AllNotesViewModel::class.java]
 
         allNotesViewModel.allNotes.observe(this) { list ->
             adapter.updateNotesList(list)
