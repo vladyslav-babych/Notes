@@ -8,6 +8,8 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import com.otaman.notes.model.Note
 import com.otaman.notes.databinding.ActivityNoteDetailsBinding
+import com.otaman.notes.view.MainActivity.Companion.NOTE
+import com.otaman.notes.view.MainActivity.Companion.NOTE_TYPE
 import com.otaman.notes.viewmodel.EditNoteViewModel
 
 class EditNoteActivity : AppCompatActivity() {
@@ -16,7 +18,7 @@ class EditNoteActivity : AppCompatActivity() {
     private lateinit var tvEditTitle: EditText
     private lateinit var tvEditContent: EditText
     private lateinit var bSave: Button
-    private lateinit var noteType: String
+    private lateinit var noteType: NoteType
     private var noteId = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,19 +26,24 @@ class EditNoteActivity : AppCompatActivity() {
         binding = ActivityNoteDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        noteType = intent.getStringExtra("noteType").orEmpty()
-        tvEditTitle = binding.tvEditNoteTitle
-        tvEditContent = binding.tvEditNoteContent
-        bSave = binding.bSaveNote
+        noteType = intent.getSerializableExtra(NOTE_TYPE) as NoteType
+        initButtonAndEditTexts()
         getNote()
         initClickListeners()
     }
 
+    private fun initButtonAndEditTexts() {
+        tvEditTitle = binding.tvEditNoteTitle
+        tvEditContent = binding.tvEditNoteContent
+        bSave = binding.bSaveNote
+    }
+
     private fun getNote() {
-        if (noteType == "Edit") {
-            val noteTitle = intent.getStringExtra("noteTitle")
-            val noteContent = intent.getStringExtra("noteContent")
-            noteId = intent.getStringExtra("noteId").orEmpty()
+        if (noteType == NoteType.EDIT) {
+            val note = intent.getParcelableExtra<Note>(NOTE)!!
+            val noteTitle = note.title
+            val noteContent = note.content
+            noteId = note.id
             bSave.text = "UPDATE"
             tvEditTitle.setText(noteTitle)
             tvEditContent.setText(noteContent)
@@ -49,7 +56,7 @@ class EditNoteActivity : AppCompatActivity() {
         bSave.setOnClickListener {
             val noteTitle = tvEditTitle.text.toString()
             val noteContent = tvEditContent.text.toString()
-            if (noteType == "Edit") {
+            if (noteType == NoteType.EDIT) {
                 if (noteTitle.isNotEmpty() && noteContent.isNotEmpty()) {
                     val updatedNote = Note(id = noteId, title = noteTitle, content = noteContent)
                     editNoteViewModel.updateNote(updatedNote)
