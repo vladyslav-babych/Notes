@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.widget.*
 import androidx.activity.viewModels
-import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.otaman.notes.R
 import com.otaman.notes.model.Note
@@ -52,7 +51,7 @@ class MainActivity : AppCompatActivity(), OnNoteClick, OnNoteDeleteClick {
     private fun initUi() {
         val recyclerView = binding.rvNotesList
         recyclerView.layoutManager = LinearLayoutManager(this)
-        adapter = NoteAdapter(this, this, this)
+        adapter = NoteAdapter(this, this)
         recyclerView.adapter = adapter
 
         allNotesViewModel.allNotes.observe(this) { list ->

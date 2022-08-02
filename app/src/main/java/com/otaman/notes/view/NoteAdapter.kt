@@ -1,6 +1,5 @@
 package com.otaman.notes.view
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +9,6 @@ import com.otaman.notes.R
 import com.otaman.notes.databinding.ListItemNoteBinding
 
 class NoteAdapter(
-    val context: Context,
     val onNoteDeleteClick: OnNoteDeleteClick,
     val onNoteClick: OnNoteClick
 ): RecyclerView.Adapter<NoteAdapter.NotesViewHolder>() {
