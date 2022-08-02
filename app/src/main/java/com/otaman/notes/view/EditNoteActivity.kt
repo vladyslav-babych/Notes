@@ -5,14 +5,14 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
+import androidx.activity.viewModels
 import com.otaman.notes.model.Note
 import com.otaman.notes.databinding.ActivityNoteDetailsBinding
 import com.otaman.notes.viewmodel.EditNoteViewModel
 
 class EditNoteActivity : AppCompatActivity() {
     private lateinit var binding: ActivityNoteDetailsBinding
-    private lateinit var editNoteViewModel: EditNoteViewModel
+    private val editNoteViewModel by viewModels<EditNoteViewModel>()
     private lateinit var tvEditTitle: EditText
     private lateinit var tvEditContent: EditText
     private lateinit var bSave: Button
@@ -25,18 +25,11 @@ class EditNoteActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         noteType = intent.getStringExtra("noteType").orEmpty()
-        initViewModel()
         tvEditTitle = binding.tvEditNoteTitle
         tvEditContent = binding.tvEditNoteContent
         bSave = binding.bSaveNote
         getNote()
         initClickListeners()
-    }
-
-    private fun initViewModel() {
-        editNoteViewModel = ViewModelProvider(
-            this, ViewModelProvider.AndroidViewModelFactory.getInstance(application)
-        )[EditNoteViewModel::class.java]
     }
 
     private fun getNote() {
