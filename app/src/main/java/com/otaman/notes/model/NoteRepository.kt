@@ -20,11 +20,11 @@ class NoteRepository private constructor(private val noteDao: NoteDao) {
 
     companion object {
         private var instance: NoteRepository? = null
-        fun getInstance(noteDao: NoteDao): NoteRepository? {
+        fun getInstance(noteDao: NoteDao): NoteRepository {
             if(instance == null) {
                 instance = NoteRepository(noteDao)
             }
-            return instance
+            return instance!!
         }
     }
 }

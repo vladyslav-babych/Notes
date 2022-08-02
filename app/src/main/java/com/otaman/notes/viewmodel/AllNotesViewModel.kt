@@ -13,10 +13,10 @@ class AllNotesViewModel(application: Application): AndroidViewModel(application)
     private val repository = NoteRepository.getInstance(dao)
     private val _searchResults = MutableLiveData<List<Note>>()
     val searchResults: LiveData<List<Note>> = _searchResults
-    val allNotes: LiveData<List<Note>> = repository!!.getAllNotes()
+    val allNotes: LiveData<List<Note>> = repository.getAllNotes()
 
     fun deleteNote(note: Note) = viewModelScope.launch(Dispatchers.IO) {
-        repository?.deleteNote(note)
+        repository.deleteNote(note)
     }
 
     fun searchNote(searchNote: String) = viewModelScope.launch(Dispatchers.Default) {

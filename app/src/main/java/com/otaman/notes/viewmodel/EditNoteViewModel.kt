@@ -14,10 +14,10 @@ class EditNoteViewModel(application: Application): AndroidViewModel(application)
     private val repository = NoteRepository.getInstance(dao)
 
     fun updateNote(note: Note) = viewModelScope.launch(Dispatchers.IO) {
-        repository?.updateNote(note)
+        repository.updateNote(note)
     }
 
     fun addNote(note: Note) = viewModelScope.launch(Dispatchers.IO) {
-        repository?.insertNote(note)
+        repository.insertNote(note)
     }
 }
