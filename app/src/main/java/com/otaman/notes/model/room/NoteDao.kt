@@ -3,7 +3,6 @@ package com.otaman.notes.model.room
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.otaman.notes.model.Note
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface NoteDao {

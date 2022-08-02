@@ -2,9 +2,8 @@ package com.otaman.notes.model
 
 import androidx.lifecycle.LiveData
 import com.otaman.notes.model.room.NoteDao
-import kotlinx.coroutines.flow.Flow
 
-class NoteRepository(private val noteDao: NoteDao) {
+class NoteRepository private constructor(private val noteDao: NoteDao) {
     fun getAllNotes(): LiveData<List<Note>> = noteDao.getAllNotes()
 
     fun insertNote(note: Note) {
@@ -17,5 +16,15 @@ class NoteRepository(private val noteDao: NoteDao) {
 
     fun updateNote(note: Note) {
         noteDao.updateNote(note)
+    }
+
+    companion object {
+        private var instance: NoteRepository? = null
+        fun getInstance(noteDao: NoteDao): NoteRepository {
+            if(instance == null) {
+                instance = NoteRepository(noteDao)
+            }
+            return instance!!
+        }
     }
 }
