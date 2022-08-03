@@ -82,7 +82,7 @@ class MainActivity : AppCompatActivity(), OnNoteClick, OnNoteDeleteClick {
     }
 
     companion object {
-        const val NOTE_TYPE = "note_type"
-        const val NOTE = "note"
+        const val NOTE_TYPE = "com.otaman.notes.note_type"
+        const val NOTE = "com.otaman.notes.note"
     }
 }
