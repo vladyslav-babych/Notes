@@ -64,22 +64,25 @@ class MainActivity : AppCompatActivity(), OnNoteClick, OnNoteDeleteClick {
 
         binding.fabAddNote.setOnClickListener {
             val intent = Intent(this@MainActivity, EditNoteActivity::class.java)
-            intent.putExtra("noteType", "NewNote")
+            intent.putExtra(NOTE_TYPE, NoteType.ADD)
             startActivity(intent)
         }
     }
 
     override fun onNoteClick(note: Note) {
         val intent = Intent(this@MainActivity, EditNoteActivity::class.java)
-        intent.putExtra("noteType", "Edit")
-        intent.putExtra("noteTitle", note.title)
-        intent.putExtra("noteContent", note.content)
-        intent.putExtra("noteId", note.id)
+        intent.putExtra(NOTE_TYPE, NoteType.EDIT)
+        intent.putExtra(NOTE, note)
         startActivity(intent)
     }
 
     override fun onNoteDeleteClick(note: Note) {
         allNotesViewModel.deleteNote(note)
         Toast.makeText(this, "${note.title} Deleted", Toast.LENGTH_SHORT).show()
+    }
+
+    companion object {
+        const val NOTE_TYPE = "com.otaman.notes.note_type"
+        const val NOTE = "com.otaman.notes.note"
     }
 }
