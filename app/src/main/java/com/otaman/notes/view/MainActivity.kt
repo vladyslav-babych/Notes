@@ -11,10 +11,12 @@ import com.otaman.notes.R
 import com.otaman.notes.model.Note
 import com.otaman.notes.databinding.ActivityMainBinding
 import com.otaman.notes.viewmodel.AllNotesViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity(), OnNoteClick, OnNoteDeleteClick {
     private lateinit var binding: ActivityMainBinding
-    private val allNotesViewModel by viewModels<AllNotesViewModel>()
+    private val allNotesViewModel  by viewModels<AllNotesViewModel>()
     private lateinit var adapter: NoteAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {

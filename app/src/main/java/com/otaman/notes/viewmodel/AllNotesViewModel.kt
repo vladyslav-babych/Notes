@@ -4,13 +4,17 @@ import android.app.Application
 import androidx.lifecycle.*
 import com.otaman.notes.model.Note
 import com.otaman.notes.model.NoteRepository
-import com.otaman.notes.model.room.NoteDatabase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class AllNotesViewModel(application: Application): AndroidViewModel(application) {
-    private val dao = NoteDatabase.getInstance(application).getNoteDao()
-    private val repository = NoteRepository.getInstance(dao)
+@HiltViewModel
+class AllNotesViewModel @Inject constructor(
+    application: Application,
+    private val repository: NoteRepository
+): AndroidViewModel(application) {
+
     private val _searchResults = MutableLiveData<List<Note>>()
     val searchResults: LiveData<List<Note>> = _searchResults
     val allNotes: LiveData<List<Note>> = repository.getAllNotes()
