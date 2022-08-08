@@ -11,7 +11,9 @@ import com.otaman.notes.databinding.ActivityNoteDetailsBinding
 import com.otaman.notes.view.MainActivity.Companion.NOTE
 import com.otaman.notes.view.MainActivity.Companion.NOTE_TYPE
 import com.otaman.notes.viewmodel.EditNoteViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class EditNoteActivity : AppCompatActivity() {
     private lateinit var binding: ActivityNoteDetailsBinding
     private val editNoteViewModel by viewModels<EditNoteViewModel>()
