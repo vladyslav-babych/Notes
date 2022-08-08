@@ -1,6 +1,5 @@
 package com.otaman.notes.viewmodel
 
-import android.app.Application
 import androidx.lifecycle.*
 import com.otaman.notes.model.Note
 import com.otaman.notes.model.NoteRepository
@@ -11,9 +10,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AllNotesViewModel @Inject constructor(
-    application: Application,
     private val repository: NoteRepository
-): AndroidViewModel(application) {
+): ViewModel() {
 
     private val _searchResults = MutableLiveData<List<Note>>()
     val searchResults: LiveData<List<Note>> = _searchResults
