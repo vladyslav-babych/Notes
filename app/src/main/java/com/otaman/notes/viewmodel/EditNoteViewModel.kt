@@ -14,11 +14,11 @@ class EditNoteViewModel @Inject constructor(
     private val repository: NoteRepository
 ): ViewModel() {
 
-    fun updateNote(note: Note) = viewModelScope.launch(Dispatchers.IO) {
+    fun updateNote(note: Note) = viewModelScope.launch {
         repository.updateNote(note)
     }
 
-    fun addNote(note: Note) = viewModelScope.launch(Dispatchers.IO) {
+    fun addNote(note: Note) = viewModelScope.launch {
         repository.insertNote(note)
     }
 }
