@@ -35,7 +35,7 @@ object NoteDatabaseModule {
 
     @Provides
     @Singleton
-    fun provideRepository(dao: NoteDao, ioDispatcher: CoroutineDispatcher, ): NoteRepository {
+    fun provideRepository(dao: NoteDao, ioDispatcher: CoroutineDispatcher): NoteRepository {
         return NoteRepository(dao, ioDispatcher)
     }
 }
