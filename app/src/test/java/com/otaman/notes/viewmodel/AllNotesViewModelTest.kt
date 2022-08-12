@@ -21,8 +21,8 @@ internal class AllNotesViewModelTest {
 
     private lateinit var fakeNoteRepository: FakeNoteRepository
     private lateinit var allNotesViewModel: AllNotesViewModel
-    private val note = Note(id = "1", title = "Title1", content = "Content1")
-    private val note1 = Note(id = "1", title = "Title2", content = "Content2")
+    private val note = Note(title = "Title1", content = "Content1")
+    private val note1 = Note(title = "Title2", content = "Content2")
 
     @Before
     fun setup() {
