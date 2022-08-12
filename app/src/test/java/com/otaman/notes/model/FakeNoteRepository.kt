@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 
 class FakeNoteRepository: NoteRepository {
-    private val notes = mutableListOf<Note>()
+    val notes = mutableListOf<Note>()
     private val observableNotes = MutableLiveData<List<Note>>(notes)
 
     override fun getAllNotes(): LiveData<List<Note>> {
