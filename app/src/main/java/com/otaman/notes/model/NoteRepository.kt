@@ -1,33 +1,10 @@
 package com.otaman.notes.model
 
 import androidx.lifecycle.LiveData
-import com.otaman.notes.model.room.NoteDao
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
-class NoteRepository @Inject constructor(
-    private val noteDao: NoteDao,
-    private val ioDispatcher: CoroutineDispatcher
-) {
-    fun getAllNotes(): LiveData<List<Note>> = noteDao.getAllNotes()
-
-    suspend fun insertNote(note: Note) {
-        withContext(ioDispatcher) {
-            noteDao.insertNote(note)
-        }
-    }
-
-    suspend fun deleteNote(note: Note) {
-        withContext(ioDispatcher) {
-            noteDao.deleteNote(note)
-        }
-    }
-
-    suspend fun updateNote(note: Note) {
-        withContext(ioDispatcher) {
-            noteDao.updateNote(note)
-        }
-    }
+interface NoteRepository {
+    fun getAllNotes(): LiveData<List<Note>>
+    suspend fun insertNote(note: Note)
+    suspend fun deleteNote(note: Note)
+    suspend fun updateNote(note: Note)
 }
