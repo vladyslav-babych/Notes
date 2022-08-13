@@ -2,6 +2,7 @@ package com.otaman.notes.di
 
 import android.content.Context
 import androidx.room.Room
+import com.otaman.notes.model.NoteRepositoryImpl
 import com.otaman.notes.model.NoteRepository
 import com.otaman.notes.model.room.NoteDao
 import com.otaman.notes.model.room.NoteDatabase
@@ -36,6 +37,6 @@ object NoteDatabaseModule {
     @Provides
     @Singleton
     fun provideRepository(dao: NoteDao, ioDispatcher: CoroutineDispatcher): NoteRepository {
-        return NoteRepository(dao, ioDispatcher)
+        return NoteRepositoryImpl(dao, ioDispatcher)
     }
 }
