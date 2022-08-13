@@ -23,6 +23,13 @@ internal class AllNotesViewModelTest {
     private lateinit var allNotesViewModel: AllNotesViewModel
     private val note = Note(title = "Title1", content = "Content1")
     private val note1 = Note(title = "Title2", content = "Content2")
+    private val note2 = Note(title = "Title3", content = "Content3")
+
+    private suspend fun insertNotes() {
+        fakeNoteRepository.insertNote(note)
+        fakeNoteRepository.insertNote(note1)
+        fakeNoteRepository.insertNote(note2)
+    }
 
     @Before
     fun setup() {
@@ -31,11 +38,23 @@ internal class AllNotesViewModelTest {
     }
 
     @Test
+    fun getAllNotes_returnsListOfAllNotes() = runTest {
+        insertNotes()
+        advanceUntilIdle()
+
+        val actualNotes = fakeNoteRepository.getAllNotes().getOrAwaitValue()
+        val expectedNotes = listOf(note, note1, note2)
+
+        assertThat(expectedNotes, equalTo(actualNotes))
+    }
+
+    @Test
     fun deleteNote_deletesNote() = runTest {
+        insertNotes()
         allNotesViewModel.deleteNote(note)
         advanceUntilIdle()
 
-        val expectedNotes = emptyList<Note>()
+        val expectedNotes = listOf(note1, note2)
         val actualNotes = fakeNoteRepository.notes
 
         assertThat(expectedNotes, equalTo(actualNotes))
@@ -43,19 +62,13 @@ internal class AllNotesViewModelTest {
 
     @Test
     fun searchNote_returnsListOfMatchedNotes() = runTest {
+        insertNotes()
+        val searchQuery = "title3"
+        allNotesViewModel.searchNote(searchQuery)
         advanceUntilIdle()
 
-        val allNotes = mutableListOf(note, note1)
-        val matchedNotes = mutableListOf<Note>()
-        val expectedNotes = listOf(note)
-        val searchTitleString = "le1"
-        val searchContentString = "tent1"
-
-        val searchResult = allNotes.filter {
-            it.title.contains(searchTitleString, true) ||
-            it.content.contains(searchContentString, true)
-        }
-        matchedNotes.addAll(searchResult)
+        val expectedNotes = allNotesViewModel.searchResults.getOrAwaitValue()
+        val matchedNotes = listOf(note2)
 
         assertThat(expectedNotes, equalTo(matchedNotes))
     }
